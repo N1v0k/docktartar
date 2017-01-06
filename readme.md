@@ -72,13 +72,13 @@ There are environment variables you can set, the defaults are:
 
 | Variable          | Default Value   | Description                                                                                                      | Examples                                |
 | ----------------- | --------------- | ---------------------------------------------------------------------------------------------------------------- | --------------------------------------- |
-| BACKUP_PERIOD     | 24h             | If Loop is true, the procedure is repeated in this period of time.                                               | `30s`, `5m`, `24h`, `7d `               |
-| BACKUP_DELAY      | 5s              | Delays the execution of the procedure.                                                                           | `30s`, `5m`, `24h`, `7d`                |
+| BACKUP_PREDELAY   | 12h             | The script will wait this amount of time before taring.                                                          | `30s`, `5m`, `24h`, `7d `               |
+| BACKUP_POSTDELAY  | 12h             | The script will wait this amount of time after taring. If Loop is true                                           | `30s`, `5m`, `24h`, `7d`                |
 | TIMEZONE          | "Europe/Vienna" | Sets the timezone of the container.                                                                              | `'Asia/Tokyo'`,`'America/Los_Angeles'`  |
-| LOOP              | True            | Executes the tar procedure periodically.                                                                         | true or false                           |
+| LOOP              | true            | Executes the tar procedure periodically.                                                                         | `true` or `false`                       |
 | TAR_OWNER_USERID  | 0               | Sets the Owner of the archive. 0 = root                                                                          | enter `id` for all users on your system |
 | TAR_OWNER_GROUPID | 0               | Sets the Group-Owner of the archive.   0 = root                                                                  | enter `id` for all users on your system |
-| TAG               | "docker"        | Sets filename like tag.[timestamp].tar.gz                                                                        | docker-backup                           |
+| TAG               | "docker"        | Sets filename like tag.[timestamp].tar.gz                                                                        | `docker-backup`                           |
 | STOP_CONTAINERS   | "all"           | The containers to stop. Either Name, Id or all. nginx mysql all will stop nginx then mysql and then all others.  | `mysql all`, `nginx mysql`, `all`       |
 | START_CONTAINERS  | "all"           | The containers to start. Either Name, Id or all. nginx mysql all will start nginx then mysql and then all others.| `mysql all`, `nginx mysql`, `all`       |
 
@@ -111,7 +111,7 @@ To upgrade to newer releases:
   4. Start the updated image
 
   ```bash
-  docker run -name tartar -d [OPTIONS] gmentsik/docktartar
+  docker run -name docktartar -d [OPTIONS] gmentsik/docktartar
   ```
 
 ## Shell Access

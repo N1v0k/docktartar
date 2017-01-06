@@ -5,8 +5,8 @@ echo "${TIMEZONE}" >  /etc/timezone
 
 while [ 1 ]
 do
-    echo "Starting - $(date) after ${BACKUP_DELAY}"
-    sleep ${BACKUP_DELAY}
+    echo "Starting - $(date), waiting for ${BACKUP_PREDELAY}"
+    sleep ${BACKUP_PREDELAY}
 
     meid=$(cat /proc/1/cgroup | grep 'docker/' | tail -1 | sed 's/^.*\///' | cut -c 1-12)
 
@@ -60,7 +60,7 @@ do
   echo "Finished."
   [ "${LOOP}" == "true" ] || break
 
-  echo "Next backup in ${BACKUP_PERIOD}"
-  sleep ${BACKUP_PERIOD}
+  echo "Waiting for ${BACKUP_POSTDELAY}"
+  sleep ${BACKUP_POSTDELAY}
 
 done

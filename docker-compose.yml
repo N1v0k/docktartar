@@ -4,8 +4,8 @@ services:
   docktartar:
     image: gmentsik/docktartar
     environment:
-      BACKUP_PERIOD: 24h
-      BACKUP_DELAY: 5s
+      BACKUP_PREDELAY: 24h
+      BACKUP_POSTDELAY: 5s
       TIMEZONE: "Europe/Vienna"
       LOOP: 'true'
       TAG: 'docker'

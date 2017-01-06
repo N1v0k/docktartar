@@ -1,8 +1,8 @@
 FROM alpine:latest
 MAINTAINER Gergely Mentsik "gergely@mentsik.eu"
 
-ENV BACKUP_PERIOD=24 \
-    BACKUP_DELAY=5 \
+ENV BACKUP_PREDELAY=12h \
+    BACKUP_POSTDELAY=12h \
     LOOP=true \
     USERID=0 \
     GROUPID=0 \
