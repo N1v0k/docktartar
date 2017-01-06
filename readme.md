@@ -6,7 +6,7 @@
 - [Getting started](#getting-started)
   - [Installation](#installation)
   - [Quickstart](#quickstart)
-  - [Configuration](#Configuration)
+  - [Environment Variables](#environment-variables)
 - [Maintenance](#maintenance)
   - [Upgrading](#upgrading)
   - [Shell Access](#shell-access)
@@ -47,10 +47,10 @@ If the above recommendations do not help then [report your issue](../../issues/n
 Automated builds of the image are available on [Dockerhub](https://hub.docker.com/r/gmentsik/docktartar) and is the recommended method of installation.
 
 ```bash
-docker pull gmentsik/docktartar:latest
+docker pull gmentsik/docktartar
 ```
 
-Alternatively you can build the image yourself.
+_Alternatively you can build the image yourself._
 
 ```bash
 docker build -t gmentsik/docktartar github.com/gmentsik/docktartar
@@ -61,14 +61,19 @@ docker build -t gmentsik/docktartar github.com/gmentsik/docktartar
 Start Tartar using:
 
 ```bash
-docker run --name docktartar -d --restart=always --volume /srv/docker:/backupSource --volume /var/backups/docker:/backupTarget gmentsik/docktartar:latest
+docker run -d --name docktartar \
+              --restart=always \
+              --volume /srv/docker:/backupSource \
+              --volume /var/backups/docker:/backupTarget  \
+              --volume /var/run/docker.sock:/var/run/docker.sock \
+              --volume /var/lib/docker:/var/lib/docker \
+      gmentsik/docktartar
 ```
 
 *Alternatively, you can use the sample [docker-compose.yml](docker-compose.yml) file to start the container using [Docker Compose](https://docs.docker.com/compose/)*
 
-## Configuration
+## Environment Variables
 
-There are environment variables you can set, the defaults are:
 
 | Variable          | Default Value   | Description                                                                                                      | Examples                                |
 | ----------------- | --------------- | ---------------------------------------------------------------------------------------------------------------- | --------------------------------------- |
@@ -82,8 +87,15 @@ There are environment variables you can set, the defaults are:
 | STOP_CONTAINERS   | "all"           | The containers to stop. Either Name, Id or all. nginx mysql all will stop nginx then mysql and then all others.  | `mysql all`, `nginx mysql`, `all`       |
 | START_CONTAINERS  | "all"           | The containers to start. Either Name, Id or all. nginx mysql all will start nginx then mysql and then all others.| `mysql all`, `nginx mysql`, `all`       |
 
+## Volumes
 
-
+| Container Volume      | Description                                                        |
+| -----------------     | ------------------------------------------------------------------ |
+| /backupSource         | The contents of this folder will be archived in a tar-archive.     |
+| /backupTarget         | The tar-archive will be put in this directory.                     |
+| /var/run/docker.sock  | Has to be mapped in ordner to be able to stop and start containers.|
+| /var/lib/docker       | Has to be mapped in ordner to be able to stop and start containers.|
+    
 # Maintenance
 
 ## Upgrading
