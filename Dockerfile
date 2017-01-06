@@ -2,10 +2,10 @@ FROM alpine:latest
 MAINTAINER Gergely Mentsik "gergely@mentsik.eu"
 
 ENV BACKUP_PERIOD=24 \
-    BACKUP_DELAY=0 \
+    BACKUP_DELAY=5 \
     LOOP=true \
-    USERID=1001 \
-    GROUPID=1001 \
+    USERID=0 \
+    GROUPID=0 \
     TAG="docker-backup" \
     STOP_CONTAINERS="all" \
     START_CONTAINERS="all" \
