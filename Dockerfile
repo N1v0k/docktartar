@@ -4,7 +4,6 @@ ENTRYPOINT ["/run.sh"]
 
 ENV BACKUP_PERIOD=24 \
     BACKUP_DELAY=0 \
-    BACKUP_KEEPTIME=7 \
     LOOP=true \
     USERID=1001 \
     GROUPID=1001 \

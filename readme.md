@@ -127,3 +127,6 @@ docker exec -it docktartar bash
 
 #### changed:  
 * changed tartar to docktarar in docker-compose
+
+#### removed:  
+* BACKUP_KEEPTIME ... will be added again when working
