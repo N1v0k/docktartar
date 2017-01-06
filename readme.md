@@ -42,7 +42,7 @@ If the above recommendations do not help then [report your issue](../../issues/n
 
 ## Installation
 
-Automated builds of the image are available on [Dockerhub](https://hub.docker.com/r/gmentsik/tartar) and is the recommended method of installation.
+Automated builds of the image are available on [Dockerhub](https://hub.docker.com/r/gmentsik/docktartar) and is the recommended method of installation.
 
 ```bash
 docker pull gmentsik/docktartar:latest
@@ -124,3 +124,6 @@ docker exec -it docktartar bash
 * Dockerfile for building the container
 * sample-docker compose
 * this Readme
+
+#### changed:  
+* changed tartar to docktarar in docker-compose

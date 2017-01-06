@@ -1,8 +1,8 @@
 version: '2'
 
 services:
-  tartar:
-    image: gmentsik/tartar
+  docktartar:
+    image: gmentsik/docktartar
     privileged: true
     environment:
       BACKUP_PERIOD: 24h
