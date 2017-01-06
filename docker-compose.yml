@@ -1,0 +1,20 @@
+version: '2'
+
+services:
+  tartar:
+    image: gmentsik/tartar
+    privileged: true
+    environment:
+      BACKUP_PERIOD: 24h
+      BACKUP_DELAY: 0s
+      TIMEZONE: "Europe/Vienna"
+      LOOP: 'true'
+      TAR_OWNER_USERID: 1000
+      TAR_OWNER_GROUPID: 1000
+    volumes:
+    - /srv/docker:/backupSource
+    - /mnt/rdata/backup/docker:/backupTarget
+    - /var/run/docker.sock:/var/run/docker.sock
+    - /var/lib/docker:/var/lib/docker
+    stdin_open: true
+    network_mode: none
