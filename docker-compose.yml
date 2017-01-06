@@ -9,8 +9,11 @@ services:
       BACKUP_DELAY: 0s
       TIMEZONE: "Europe/Vienna"
       LOOP: 'true'
+      TAG: 'docker'
       TAR_OWNER_USERID: 1000
       TAR_OWNER_GROUPID: 1000
+      STOP_CONTAINERS: "all"
+      START_CONTAINERS: "all"
     volumes:
     - /srv/docker:/backupSource
     - /mnt/rdata/backup/docker:/backupTarget

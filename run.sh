@@ -1,37 +1,66 @@
 #!/bin/bash
 
-echo "Starting up..."
-
 cp /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
 echo "${TIMEZONE}" >  /etc/timezone
-echo "Date is: "
-date
-
-echo "Starting Backup Process"
 
 while [ 1 ]
 do
-  echo "Starting Backup Process in ${BACKUP_DELAY}"
-  sleep ${BACKUP_DELAY}
+    echo "Starting - $(date) after ${BACKUP_DELAY}"
+    sleep ${BACKUP_DELAY}
 
-  echo "Starting - Stopping all containers"
-  containers=$(docker ps -a -q)
-  docker stop ${containers}
+    meid=$(cat /proc/1/cgroup | grep 'docker/' | tail -1 | sed 's/^.*\///' | cut -c 1-12)
 
-  echo "Creating TAR-Archive of /backupSource to /backupTarget"
-  tstamp=$(date "+%H.%M.%S-%d.%m.%y")
-  tar -cvpzf "/backupTarget/docker.backup.${tstamp}.tar.gz" /backupSource
+    running_containers=$(docker ps -q)
+    nof_running_containers=$(docker ps -q | wc -l)
+    first_to_stop="${STOP_CONTAINERS%all}"
+    last_to_stop="${STOP_CONTAINERS##* }"
 
-  echo "Restarting all containers"
-  docker start ${containers}
+    if [ "$last_to_stop" == "all" ]; then
+        echo "Stopping $(docker stop $first_to_stop)"
+        while [ $(docker ps -q | wc -l) -gt 1 ]
+        do
+            containers=$(docker ps -q)
+            for cont in ${containers[@]}
+            do
+                if [[ "$cont" != "$meid" ]]
+                then
+                    echo "Stopping $(docker stop $cont)"
+                fi
+                containers=$(docker ps -q)
+            done
+        done
+    else
+        echo "Stopping $(docker stop $STOP_CONTAINERS)"
+    fi
+
+
+    echo "Creating TAR-Archive of /backupSource to /backupTarget"
+    tstamp=$(date "+%H.%M.%S-%d.%m.%y")
+    tar -cvpzf "/backupTarget/${TAG}.${tstamp}.tar.gz" /backupSource
+
+    first_to_start="${START_CONTAINERS%all}"
+    last_to_start="${START_CONTAINERS##* }"
+
+    if [ "$last_to_start" == "all" ]; then
+        echo "Restarting $(docker start $first_to_start)"
+        while [ $nof_running_containers -ne $(docker ps -q | wc -l) ]
+        do
+            for cont in ${running_containers[@]}
+            do
+                echo "Restarting $(docker start $cont)"
+            done
+        done
+    else
+        echo "Restarting $(docker start $START_CONTAINERS)"
+    fi
 
   echo "Chown the archive"
-  chown ${TAR_OWNER_USERID}:${TAR_OWNER_GROUPID} "/backupTarget/docker.backup.${tstamp}.tar.gz"
+  chown ${TAR_OWNER_USERID}:${TAR_OWNER_GROUPID} "/backupTarget/${TAG}.${tstamp}.tar.gz"
 
   echo "Finished."
   [ "${LOOP}" == "true" ] || break
 
-  echo "Next backup in ${BACKUP_PERIOD}s"
+  echo "Next backup in ${BACKUP_PERIOD}"
   sleep ${BACKUP_PERIOD}
 
 done
