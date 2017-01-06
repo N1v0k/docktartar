@@ -127,6 +127,7 @@ docker exec -it docktartar bash
 
 #### changed:  
 * changed tartar to docktarar in docker-compose
+* changed order of Dockerfile commands and CHMOD command
 
 #### removed:  
 * BACKUP_KEEPTIME ... will be added again when working
