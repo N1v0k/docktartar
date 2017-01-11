@@ -9,12 +9,12 @@ ENV BACKUP_PREDELAY=12h \
     TAG="docker-backup" \
     STOP_CONTAINERS="all" \
     START_CONTAINERS="all" \
-    INCREMENTAL"true" \
+    INCREMENTAL="true" \
     TIMEZONE="Europe/Vienna"
 
 ADD run.sh /run.sh
 
-RUN apk add --update bash docker tar grep tzdata \
+RUN apk add --update bash docker tar grep tzdata md5deep \
     && mkdir /backupSource \
     && mkdir /backupTarget \
     && chmod 755 /run.sh
