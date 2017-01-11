@@ -14,7 +14,7 @@ ENV BACKUP_PREDELAY=12h \
 
 ADD run.sh /run.sh
 
-RUN apk add --update bash docker tar grep tzdata md5deep \
+RUN apk add --update bash docker tar grep tzdata \
     && mkdir /backupSource \
     && mkdir /backupTarget \
     && chmod 755 /run.sh
