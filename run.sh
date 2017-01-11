@@ -36,8 +36,12 @@ do
 
     echo "Creating TAR-Archive of /backupSource to /backupTarget"
     tstamp=$(date "+%H.%M.%S-%d.%m.%y")
-    tar -cvpzf "/backupTarget/${TAG}.${tstamp}.tar.gz" /backupSource
 
+    if [ "$INCREMENTAL" == "true" ]; then
+        tar --listed-incremental=snap.incr -cvpzf "/backupTarget/${TAG}.${tstamp}.tar.gz" /backupSource
+    else
+        tar -cvpzf "/backupTarget/${TAG}.${tstamp}.tar.gz" /backupSource
+    fi
     first_to_start="${START_CONTAINERS%all}"
     last_to_start="${START_CONTAINERS##* }"
 

@@ -9,6 +9,7 @@ ENV BACKUP_PREDELAY=12h \
     TAG="docker-backup" \
     STOP_CONTAINERS="all" \
     START_CONTAINERS="all" \
+    INCREMENTAL"true" \
     TIMEZONE="Europe/Vienna"
 
 ADD run.sh /run.sh

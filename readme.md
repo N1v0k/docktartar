@@ -83,9 +83,10 @@ docker run -d --name docktartar \
 | LOOP              | true            | Executes the tar procedure periodically.                                                                         | `true` or `false`                       |
 | TAR_OWNER_USERID  | 0               | Sets the Owner of the archive. 0 = root                                                                          | enter `id` for all users on your system |
 | TAR_OWNER_GROUPID | 0               | Sets the Group-Owner of the archive.   0 = root                                                                  | enter `id` for all users on your system |
-| TAG               | "docker"        | Sets filename like tag.[timestamp].tar.gz                                                                        | `docker-backup`                           |
+| TAG               | "docker"        | Sets filename like tag.[timestamp].tar.gz                                                                        | `docker-backup`                         |
 | STOP_CONTAINERS   | "all"           | The containers to stop. Either Name, Id or all. nginx mysql all will stop nginx then mysql and then all others.  | `mysql all`, `nginx mysql`, `all`       |
 | START_CONTAINERS  | "all"           | The containers to start. Either Name, Id or all. nginx mysql all will start nginx then mysql and then all others.| `mysql all`, `nginx mysql`, `all`       |
+| START_CONTAINERS  | "true           | Generates incremental backups                                                                                    | `true` or `false`                       |
 
 ## Volumes
 
@@ -135,6 +136,10 @@ docker exec -it docktartar bash
 ```
 
 ## Change history
+### [v0.9] [06.01.2017]
+#### added:  
+* incremental Backup
+
 ### [v0.8] [06.01.2017]
 #### added:  
 * runs.sh with the full script for recursively taring a directory
