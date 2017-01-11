@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="[v0.9] [06.01.2017]"
+VERSION="[v0.9] [11.01.2017]"
 
 cp /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
 echo "${TIMEZONE}" >  /etc/timezone

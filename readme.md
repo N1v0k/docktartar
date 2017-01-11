@@ -136,7 +136,7 @@ docker exec -it docktartar bash
 ```
 
 ## Change history
-### [v0.9] [06.01.2017]
+### [v0.9] [11.01.2017]
 #### added:  
 * incremental Backup
 #### changed:  
