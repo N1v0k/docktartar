@@ -48,7 +48,7 @@ do
 
         tar --listed-incremental="/backupTarget/snap.incr" -cvpzf "/backupTarget/${TAG}.${tstamp}.tar.gz" /backupSource
         rm "/backupTarget/snap.incr"
-        cp "/backupTarget/snap.incr.bak" "/backupTarget/snap.incr"
+        mv "/backupTarget/snap.incr.bak" "/backupTarget/snap.incr"
     else
         tar -cvpzf "/backupTarget/${TAG}.${tstamp}.tar.gz" /backupSource
     fi
