@@ -42,7 +42,13 @@ do
     tstamp=$(date "+%H.%M.%S-%d.%m.%y")
 
     if [ "$INCREMENTAL" == "true" ]; then
+        if [ -f /backupTarget/snap.incr ]; then
+            cp "/backupTarget/snap.incr" "/backupTarget/snap.incr.bak"
+        fi
+
         tar --listed-incremental="/backupTarget/snap.incr" -cvpzf "/backupTarget/${TAG}.${tstamp}.tar.gz" /backupSource
+        rm "/backupTarget/snap.incr"
+        cp "/backupTarget/snap.incr.bak" "/backupTarget/snap.incr"
     else
         tar -cvpzf "/backupTarget/${TAG}.${tstamp}.tar.gz" /backupSource
     fi

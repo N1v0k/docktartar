@@ -139,6 +139,8 @@ docker exec -it docktartar bash
 ### [v0.9] [06.01.2017]
 #### added:  
 * incremental Backup
+#### changed:  
+* doing level 1 incremental backups.
 
 ### [v0.8] [06.01.2017]
 #### added:  
