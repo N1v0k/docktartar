@@ -15,7 +15,7 @@ ENV BACKUP_PREDELAY=12h \
 ADD bin/docktartar.sh /docktartar.sh
 ADD bin/run.sh /run.sh
 
-RUN apt update && apt install -y bash docker tar grep tzdata cron \
+RUN apt-get update && apt-get install -y bash docker tar grep tzdata cron \
     && mkdir /backupSource \
     && mkdir /backupTarget \
     && chmod 755 /run.sh \
