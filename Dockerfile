@@ -22,4 +22,5 @@ RUN apt-get update && apt-get install -y bash docker tar grep tzdata cron \
     && chmod 755 /docktartar.sh \
     && touch /var/log/cron.log
 
-CMD ["/run.sh" && cron && tail -f /var/log/cron.log]
+ENTRYPOINT["/run.sh"]
+CMD [cron && tail -f /var/log/cron.log]
