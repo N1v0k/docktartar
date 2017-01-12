@@ -12,11 +12,14 @@ ENV BACKUP_PREDELAY=12h \
     INCREMENTAL="true" \
     TIMEZONE="Europe/Vienna"
 
-ADD run.sh /run.sh
+ADD bin/docktartar.sh /docktartar.sh
+ADD bin/run.sh /run.sh
 
-RUN apk add --update bash docker tar grep tzdata \
+RUN apk add --update bash docker tar grep tzdata cron \
     && mkdir /backupSource \
     && mkdir /backupTarget \
-    && chmod 755 /run.sh
+    && chmod 755 /run.sh \
+    && chmod 755 /docktartar.sh \
+    && touch /var/log/cron.log
 
-ENTRYPOINT ["/run.sh"]
+CMD ["/run.sh" && cron && tail -f /var/log/cron.log]

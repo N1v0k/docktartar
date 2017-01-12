@@ -136,6 +136,10 @@ docker exec -it docktartar bash
 ```
 
 ## Change history
+### [v0.9.1] [12.01.2017]
+#### added:  
+* cron
+
 ### [v0.9] [11.01.2017]
 #### added:  
 * incremental Backup

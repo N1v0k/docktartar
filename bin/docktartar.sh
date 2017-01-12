@@ -1,11 +1,13 @@
 #!/bin/bash
 
-VERSION="[v0.9] [11.01.2017]"
+VERSION="[v0.9.1] [12.01.2017]"
 
 cp /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
 echo "${TIMEZONE}" >  /etc/timezone
 
-echo "Version: ${VERSION}"
+
+
+LOOP='false';
 
 while [ 1 ]
 do
@@ -36,6 +38,7 @@ do
     else
         echo "Stopping $(docker stop $STOP_CONTAINERS)"
     fi
+
 
 
     echo "Creating TAR-Archive of /backupSource to /backupTarget"
