@@ -77,10 +77,8 @@ docker run -d --name docktartar \
 
 | Variable          | Default Value   | Description                                                                                                      | Examples                                |
 | ----------------- | --------------- | ---------------------------------------------------------------------------------------------------------------- | --------------------------------------- |
-| BACKUP_PREDELAY   | 12h             | The script will wait this amount of time before taring.                                                          | `30s`, `5m`, `24h`, `7d `               |
-| BACKUP_POSTDELAY  | 12h             | The script will wait this amount of time after taring. If Loop is true                                           | `30s`, `5m`, `24h`, `7d`                |
+| CRON              | "0 0 * * *"     | (=Midnight) When the script should start as cron format. Check [cron-generator](http://www.crontab-generator.org)| `"0 30 * * *"  `, `"0 0 */3 * *"`       |
 | TIMEZONE          | "Europe/Vienna" | Sets the timezone of the container.                                                                              | `'Asia/Tokyo'`,`'America/Los_Angeles'`  |
-| LOOP              | true            | Executes the tar procedure periodically.                                                                         | `true` or `false`                       |
 | TAR_OWNER_USERID  | 0               | Sets the Owner of the archive. 0 = root                                                                          | enter `id` for all users on your system |
 | TAR_OWNER_GROUPID | 0               | Sets the Group-Owner of the archive.   0 = root                                                                  | enter `id` for all users on your system |
 | TAG               | "docker"        | Sets filename like tag.[timestamp].tar.gz                                                                        | `docker-backup`                         |
