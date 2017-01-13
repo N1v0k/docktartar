@@ -84,7 +84,7 @@ docker run -d --name docktartar \
 | TAG               | "docker"        | Sets filename like tag.[timestamp].tar.gz                                                                        | `docker-backup`                         |
 | STOP_CONTAINERS   | "all"           | The containers to stop. Either Name, Id or all. nginx mysql all will stop nginx then mysql and then all others.  | `mysql all`, `nginx mysql`, `all`       |
 | START_CONTAINERS  | "all"           | The containers to start. Either Name, Id or all. nginx mysql all will start nginx then mysql and then all others.| `mysql all`, `nginx mysql`, `all`       |
-| START_CONTAINERS  | "true           | Generates incremental backups                                                                                    | `true` or `false`                       |
+| INCREMENTAL       | "true           | Generates incremental backups                                                                                    | `true` or `false`                       |
 
 ## Volumes
 
@@ -133,32 +133,4 @@ For debugging and maintenance purposes you may want access the containers shell.
 docker exec -it docktartar bash
 ```
 
-## Change history
-### [v0.9.1] [12.01.2017]
-#### added:  
-* cron
 
-### [v0.9] [11.01.2017]
-#### added:  
-* incremental Backup
-#### changed:  
-* doing level 1 incremental backups.
-
-### [v0.8] [06.01.2017]
-#### added:  
-* runs.sh with the full script for recursively taring a directory
-* Dockerfile for building the container
-* sample-docker compose
-* this Readme
-
-#### changed:  
-* changed tartar to docktarar in docker-compose
-* changed order of Dockerfile commands and CHMOD command
-
-#### removed:  
-* BACKUP_KEEPTIME ... will be added again when working
-
-#### To do:
-* add logs
-* add whitelist for containers which shouldn't be stopped
-* only stop containers that have mapped host volumes
