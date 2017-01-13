@@ -26,3 +26,5 @@
 #### To do:
 * add logs
 * only stop containers that have mapped host volumes
+* e-mail notification with ssmtp
+* rotation
