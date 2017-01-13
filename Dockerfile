@@ -13,7 +13,8 @@ ENV CRON="0 0 * * *" \
 ADD bin/docktartar.sh /root/docktartar.sh
 ADD bin/run.sh /root/run.sh
 
-RUN apt-get update && apt-get install -y bash docker tar grep tzdata cron \
+#RUN apt-get update && apt-get install -y bash docker tar grep tzdata cron \
+RUN apk update && apk add -y bash docker tar grep tzdata cron \
     && mkdir /backupSource \
     && mkdir /backupTarget \
     && chmod 755 /root/run.sh \
