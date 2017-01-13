@@ -14,7 +14,9 @@ ADD bin/docktartar.sh /root/docktartar.sh
 ADD bin/run.sh /root/run.sh
 
 #RUN apt-get update && apt-get install -y bash docker tar grep tzdata cron \
-RUN apk add --update bash docker tar grep tzdata cron \
+RUN echo "http://dl-4.alpinelinux.org/alpine/edge/community/" >> /etc/apk/repositories \
+    && echo "http://dl-4.alpinelinux.org/alpine/edge/testing/" >> /etc/apk/repositories \
+    && apk add --update bash docker tar grep tzdata cron \
     && mkdir /backupSource \
     && mkdir /backupTarget \
     && chmod 755 /root/run.sh \
