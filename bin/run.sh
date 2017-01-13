@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-VERSION="[v0.9.1] [12.01.2017]"
+VERSION="[v1.0.0] [13.01.2017]"
 
 echo "Version: ${VERSION}"
 
