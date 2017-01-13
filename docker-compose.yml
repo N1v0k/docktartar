@@ -4,10 +4,8 @@ services:
   docktartar:
     image: gmentsik/docktartar
     environment:
-      BACKUP_PREDELAY: 24h
-      BACKUP_POSTDELAY: 5s
+      CRON: "0 0 * * *"
       TIMEZONE: "Europe/Vienna"
-      LOOP: 'true'
       TAG: 'docker'
       TAR_OWNER_USERID: 0
       TAR_OWNER_GROUPID: 0
