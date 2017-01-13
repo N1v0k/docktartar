@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM alpine:latest
 MAINTAINER Gergely Mentsik "gergely@mentsik.eu"
 
 ENV CRON="0 0 * * *" \
