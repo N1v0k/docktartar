@@ -41,8 +41,12 @@ if [ "$INCREMENTAL" == "true" ]; then
     fi
 
     tar --listed-incremental="/backupTarget/snap.incr" -cpzf "/backupTarget/${TAG}.${tstamp}.tar.gz" /backupSource
-    rm "/backupTarget/snap.incr"
-    mv "/backupTarget/snap.incr.bak" "/backupTarget/snap.incr"
+
+    if [ -f /backupTarget/snap.incr.bak ]; then
+        rm "/backupTarget/snap.incr"
+        mv "/backupTarget/snap.incr.bak" "/backupTarget/snap.incr"
+    fi
+
 else
     tar -cpzf "/backupTarget/${TAG}.${tstamp}.tar.gz" /backupSource
 fi
