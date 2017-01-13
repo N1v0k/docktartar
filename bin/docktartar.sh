@@ -34,15 +34,17 @@ echo "Creating TAR-Archive of /backupSource to /backupTarget"
 tstamp=$(date "+%H.%M.%S-%d.%m.%y")
 
 if [ "$INCREMENTAL" == "true" ]; then
+    echo "Doing an incremental backup"
+
     if [ -f /backupTarget/snap.incr ]; then
         cp "/backupTarget/snap.incr" "/backupTarget/snap.incr.bak"
     fi
 
-    tar --listed-incremental="/backupTarget/snap.incr" -cvpzf "/backupTarget/${TAG}.${tstamp}.tar.gz" /backupSource
+    tar --listed-incremental="/backupTarget/snap.incr" -cpzf "/backupTarget/${TAG}.${tstamp}.tar.gz" /backupSource
     rm "/backupTarget/snap.incr"
     mv "/backupTarget/snap.incr.bak" "/backupTarget/snap.incr"
 else
-    tar -cvpzf "/backupTarget/${TAG}.${tstamp}.tar.gz" /backupSource
+    tar -cpzf "/backupTarget/${TAG}.${tstamp}.tar.gz" /backupSource
 fi
 
 first_to_start="${START_CONTAINERS%all}"
