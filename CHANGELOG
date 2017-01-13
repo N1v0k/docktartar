@@ -1,0 +1,28 @@
+## Change history
+### [v0.9.1] [12.01.2017]
+#### added:  
+* cron
+
+### [v0.9] [11.01.2017]
+#### added:  
+* incremental Backup
+#### changed:  
+* doing level 1 incremental backups.
+
+### [v0.8] [06.01.2017]
+#### added:  
+* runs.sh with the full script for recursively taring a directory
+* Dockerfile for building the container
+* sample-docker compose
+* this Readme
+
+#### changed:  
+* changed tartar to docktarar in docker-compose
+* changed order of Dockerfile commands and CHMOD command
+
+#### removed:  
+* BACKUP_KEEPTIME ... will be added again when working
+
+#### To do:
+* add logs
+* only stop containers that have mapped host volumes
