@@ -5,6 +5,11 @@ echo "Starting - $(date)"
 
 meid=$(cat /proc/1/cgroup | grep 'docker/' | tail -1 | sed 's/^.*\///' | cut -c 1-12)
 
+if [  "$SMB" == "true" ]; then
+    echo "Mounting the SMB share";
+    mount -t cifs -o username=${SMB_USER},passwd=${SMB_PASSWORD} //${SMB_PATH} /backupTarget
+fi
+
 running_containers=$(docker ps -q)
 nof_running_containers=$(docker ps -q | wc -l)
 first_to_stop="${STOP_CONTAINERS%all}"
@@ -69,5 +74,10 @@ fi
 
 echo "Chown the archive"
 chown ${TAR_OWNER_USERID}:${TAR_OWNER_GROUPID} "/backupTarget/${TAG}.${tstamp}.tar.gz"
+
+if [  "$SMB" == "true" ]; then
+    echo "Unmounting the SMB share"
+    umount /backupTarget
+fi
 
 echo "Finished."

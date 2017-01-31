@@ -12,6 +12,10 @@ services:
       STOP_CONTAINERS: "all"
       START_CONTAINERS: "all"
       INCREMENTAL: "true"
+      SMB: "false"
+      SMB_USER: ""
+      SMB_PASSWORD: ""
+      SMB_PATH: ""
     volumes:
     - /srv/docker:/backupSource
     - /var/backup/docker:/backupTarget
