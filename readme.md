@@ -84,16 +84,24 @@ docker run -d --name docktartar \
 | TAG               | "docker"        | Sets filename like tag.[timestamp].tar.gz                                                                        | `docker-backup`                         |
 | STOP_CONTAINERS   | "all"           | The containers to stop. Either Name, Id or all. nginx mysql all will stop nginx then mysql and then all others.  | `mysql all`, `nginx mysql`, `all`       |
 | START_CONTAINERS  | "all"           | The containers to start. Either Name, Id or all. nginx mysql all will start nginx then mysql and then all others.| `mysql all`, `nginx mysql`, `all`       |
-| INCREMENTAL       | "true           | Generates incremental backups                                                                                    | `true` or `false`                       |
+| INCREMENTAL       | "true"          | Generates incremental backups                                                                                    | `true` or `false`                       |
+| SMB               | "false"         | Enables Samba integration                                                                                        | `true` or `false`                       |
+| SMB_USER          | ""              | Username of the samba user                                                                                       | `username`                              |
+| SMB_PASSWORD      | ""              | Password of the samba user                                                                                       | `pass`                                  |
+| SMB_SMB_PATH      | ""              | IP+Path of the Samba Network Share                                                                               | `192.162.4.10/shares/backups`           |
+
+## Samba Share and Permissions
+
+In order to run this with samba share as the backup target, you have to either run the container with `privileged: true` or add `cap_add: SYS_ADMIN`
 
 ## Volumes
 
-| Container Volume      | Description                                                        |
-| -----------------     | ------------------------------------------------------------------ |
-| /backupSource         | The contents of this folder will be archived in a tar-archive.     |
-| /backupTarget         | The tar-archive will be put in this directory.                     |
-| /var/run/docker.sock  | Has to be mapped in ordner to be able to stop and start containers.|
-| /var/lib/docker       | Has to be mapped in ordner to be able to stop and start containers.|
+| Container Volume      | Description                                                                                   |
+| -----------------     | ----------------------------------------------------------------------------------------------|
+| /backupSource         | The contents of this folder will be archived in a tar-archive.                                |
+| /backupTarget         | The tar-archive will be put in this directory. If you use a Network share, do not mount this! |
+| /var/run/docker.sock  | Has to be mapped in ordner to be able to stop and start containers.                           |
+| /var/lib/docker       | Has to be mapped in ordner to be able to stop and start containers.                           |
     
 # Maintenance
 
