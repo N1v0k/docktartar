@@ -3,6 +3,7 @@ version: '2'
 services:
   docktartar:
     image: gmentsik/docktartar
+    privileged: false
     environment:
       CRON: "0 0 * * *"
       TIMEZONE: "Europe/Vienna"

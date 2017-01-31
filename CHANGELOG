@@ -1,6 +1,10 @@
 ## Change history
-### [v0.9.1] [12.01.2017]
+### [v1.0.3] [31.01.2017]
 #### added:  
+* SMB mount options
+
+### [v0.9.1] [12.01.2017]
+#### added:
 * cron
 
 ### [v0.9] [11.01.2017]
@@ -28,4 +32,4 @@
 * only stop containers that have mapped host volumes
 * e-mail notification with ssmtp
 * rotation
-* tmp folder for generating archives? COuld be faster (eg SSD)
+* tmp folder for generating archives? Could be faster (eg SSD)
