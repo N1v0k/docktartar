@@ -18,8 +18,10 @@ It has been designed to tar docker-volumes on the host.
 Docktartar will first stop all your running containers, tar them to a location and restart all containers.
 
 You can specify what containers should be stopped and started.
-This script uses pigz in order to enable multi-core compression of your archive, making it real fast.
-You can also provide a temp-directory for faster archival, afterwards the script will move the archive wherever you want.
+This script uses pigz in order to enable multi-core compression of your archive, making it real fast. (2 minutes vs 6 minutes for about 10 GB with an Xeon E3-1225 v3, from SSD to HDD )
+
+In Progress:
+Provide a temp-directory for faster archival, afterwards the script will move the archive wherever you want.
 This is useful in cases where you want to store your backup on a remote server (you should really do this!).
 
 # Getting started
