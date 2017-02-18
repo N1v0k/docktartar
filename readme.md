@@ -1,8 +1,6 @@
 # DockTartar
 
 - [Introduction](#introduction)
-  - [Contributing](#contributing)
-  - [Issues](#issues)
 - [Getting started](#getting-started)
   - [Installation](#installation)
   - [Quickstart](#quickstart)
@@ -10,8 +8,9 @@
 - [Maintenance](#maintenance)
   - [Upgrading](#upgrading)
   - [Shell Access](#shell-access)
-- [Change history](#Change-history)
-
+- [Change history](CHANGELOG)
+- [Contributing](#contributing)
+- [Issues](#issues)
 # Introduction
 
 `Dockerfile` to create a [Docker](https://www.docker.com/) container image for periodically and recursively taring a directory.
@@ -19,26 +18,9 @@ It has been designed to tar docker-volumes on the host.
 Docktartar will first stop all your running containers, tar them to a location and restart all containers.
 
 You can specify what containers should be stopped and started.
-
-## Contributing
-
-If you find this image useful here's how you can help:
-
-- Send a pull request with your awesome features and bug fixes
-- Help users resolve their [issues](../../issues?q=is%3Aopen+is%3Aissue).
-
-## Issues
-
-Before reporting your issue please try updating Docker to the latest version and check if it resolves the issue. Refer to the Docker [installation guide](https://docs.docker.com/installation) for instructions.
-
-SELinux users should try disabling SELinux using the command `setenforce 0` to see if it resolves the issue.
-
-If the above recommendations do not help then [report your issue](../../issues/new) along with the following information:
-
-- Output of the `docker version` and `docker info` commands
-- The `docker run` command or `docker-compose.yml` used to start the image. Mask out the sensitive bits.
-- Please state if you are using [Boot2Docker](http://www.boot2docker.io), [VirtualBox](https://www.virtualbox.org), etc.
-
+This script uses pigz in order to enable multi-core compression of your archive, making it real fast.
+You can also provide a temp-directory for faster archival, afterwards the script will move the archive wherever you want.
+This is useful in cases where you want to store your backup on a remote server (you should really do this!).
 
 # Getting started
 
@@ -141,4 +123,22 @@ For debugging and maintenance purposes you may want access the containers shell.
 docker exec -it docktartar bash
 ```
 
+# Contributing
+
+If you find this image useful here's how you can help:
+
+- Send a pull request with your awesome features and bug fixes
+- Help users resolve their [issues](../../issues?q=is%3Aopen+is%3Aissue).
+
+# Issues
+
+Before reporting your issue please try updating Docker to the latest version and check if it resolves the issue. Refer to the Docker [installation guide](https://docs.docker.com/installation) for instructions.
+
+SELinux users should try disabling SELinux using the command `setenforce 0` to see if it resolves the issue.
+
+If the above recommendations do not help then [report your issue](../../issues/new) along with the following information:
+
+- Output of the `docker version` and `docker info` commands
+- The `docker run` command or `docker-compose.yml` used to start the image. Mask out the sensitive bits.
+- Please state if you are using [Boot2Docker](http://www.boot2docker.io), [VirtualBox](https://www.virtualbox.org), etc.
 
