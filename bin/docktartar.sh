@@ -53,7 +53,7 @@ if [ "$INCREMENTAL" == "true" ]; then
     fi
 
 else
-    tar -cpzf "/backupTarget/${TAG}.${tstamp}.tar.gz" /backupSource
+    tar -c -p --use-compress-program=pigz -f "/backupTarget/${TAG}.${tstamp}.tar.gz" /backupSource
 fi
 
 first_to_start="${START_CONTAINERS%all}"
