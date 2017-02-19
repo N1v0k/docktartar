@@ -20,7 +20,8 @@ ENV CRON="0 0 * * *" \
     EMAIL_FROM="Docktartar" \
     EMAIL_FROM_ADRESS="" \
     EMAIL_SUBJECT="Docktartar" \
-    EMAIL_TO=""
+    EMAIL_TO="" \
+    TEMP_DIR="NO"
 
 ADD bin/docktartar.sh /root/docktartar.sh
 ADD bin/run.sh /root/run.sh
@@ -30,6 +31,7 @@ ADD bin/test-mail.sh /root/test-mail.sh
 RUN apk add --update bash docker tar pigz grep tzdata cifs-utils ssmtp \
     && mkdir /backupSource \
     && mkdir /backupTarget \
+    && mkdir /backupTmp \
     && chmod 755 /root/run.sh \
     && chmod 755 /root/docktartar.sh \
     && chmod 755 /root/test-mail.sh \

@@ -38,6 +38,13 @@ fi
 echo "Creating TAR-Archive of /backupSource to /backupTarget"
 tstamp=$(date "+%H.%M.%S-%d.%m.%y")
 
+if [ "$TEMP_DIR" == "YES" ]; then
+    echo "Using temp directory"
+    target="/backupTmp"
+else
+    target="/backupTarget"
+fi
+
 if [ "$INCREMENTAL" == "true" ]; then
     echo "Doing an incremental backup"
 
@@ -45,16 +52,17 @@ if [ "$INCREMENTAL" == "true" ]; then
         cp "/backupTarget/snap.incr" "/backupTarget/snap.incr.bak"
     fi
 
-    tar --listed-incremental="/backupTarget/snap.incr" -cpzf "/backupTarget/${TAG}.${tstamp}.tar.gz" /backupSource
+    tar --listed-incremental="/backupTarget/snap.incr" -cpzf "${target}/${TAG}.${tstamp}.tar.gz" /backupSource
 
     if [ -f /backupTarget/snap.incr.bak ]; then
         rm "/backupTarget/snap.incr"
         mv "/backupTarget/snap.incr.bak" "/backupTarget/snap.incr"
     fi
 else
-    tar -c -p --use-compress-program=pigz -f "/backupTarget/${TAG}.${tstamp}.tar.gz" /backupSource/*
+    tar -c -p --use-compress-program=pigz -f "${target}/${TAG}.${tstamp}.tar.gz" /backupSource/*
     tar_result=$?
 fi
+
 
 first_to_start="${START_CONTAINERS%all}"
 last_to_start="${START_CONTAINERS##* }"
@@ -70,6 +78,11 @@ if [ "$last_to_start" == "all" ]; then
     done
 else
     echo "Restarting $(docker start $START_CONTAINERS)"
+fi
+
+if [ "$TEMP_DIR" == "YES" ]; then
+    echo "Moving to backupTarget";
+    mv "/backupTmp/${TAG}.${tstamp}.tar.gz" "/backupTarget/${TAG}.${tstamp}.tar.gz"
 fi
 
 echo "Chown the archive"

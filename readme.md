@@ -20,9 +20,14 @@ Docktartar will first stop all your running containers, tar them to a location a
 You can specify what containers should be stopped and started.
 This script uses pigz in order to enable multi-core compression of your archive, making it real fast. (2 minutes vs 6 minutes for about 10 GB with an Xeon E3-1225 v3, from SSD to HDD )
 
-In Progress:
-Provide a temp-directory for faster archival, afterwards the script will move the archive wherever you want.
+Yuu can provide a temp-directory for faster archival, afterwards the script will move the archive wherever you want.
 This is useful in cases where you want to store your backup on a remote server (you should really do this!).
+The workflow in this case is:
+1. Stop Containers
+2. Build the archive in the /backupTmp directory
+3. Start containers
+4. move the archive from /backupTmp to /targetTmp
+5. Chown the archive
 
 # Getting started
 
@@ -59,28 +64,29 @@ docker run -d --name docktartar \
 ## Environment Variables
 
 
-| Variable          | Default Value   | Description                                                                                                      | Examples                                |
-| ----------------- | --------------- | ---------------------------------------------------------------------------------------------------------------- | --------------------------------------- |
-| CRON              | "0 0 * * *"     | (=Midnight) When the script should start as cron format. Check [cron-generator](http://www.crontab-generator.org)| `"0 30 * * *"  `, `"0 0 */3 * *"`       |
-| TIMEZONE          | "Europe/Vienna" | Sets the timezone of the container.                                                                              | `'Asia/Tokyo'`,`'America/Los_Angeles'`  |
-| TAR_OWNER_USERID  | 0               | Sets the Owner of the archive. 0 = root                                                                          | enter `id` for all users on your system |
-| TAR_OWNER_GROUPID | 0               | Sets the Group-Owner of the archive.   0 = root                                                                  | enter `id` for all users on your system |
-| TAG               | "docker"        | Sets filename like tag.[timestamp].tar.gz                                                                        | `docker-backup`                         |
-| STOP_CONTAINERS   | "all"           | The containers to stop. Either Name, Id or all. nginx mysql all will stop nginx then mysql and then all others.  | `mysql all`, `nginx mysql`, `all`       |
-| START_CONTAINERS  | "all"           | The containers to start. Either Name, Id or all. nginx mysql all will start nginx then mysql and then all others.| `mysql all`, `nginx mysql`, `all`       |
-| INCREMENTAL       | "true"          | Generates incremental backups                                                                                    | `true` or `false`                       |
-| SMB               | "false"         | Enables Samba integration                                                                                        | `true` or `false`                       |
-| SMB_USER          | ""              | Username of the samba user                                                                                       | `username`                              |
-| SMB_PASSWORD      | ""              | Password of the samba user                                                                                       | `pass`                                  |
-| SMB_SMB_PATH      | ""              | IP+Path of the Samba Network Share                                                                               | `192.162.4.10/shares/backups`           |
-| EMAIL_HOST_PORT   | ""              | Host and port of your e-mail server/smarthost The format is host.tld:port                                        | `mail.company.com:587`                  |
-| EMAIL_USER        | ""              | Username for authentication on your mail server                                                                  | `web58p4`                               |
-| EMAIL_PASS        | ""              | Password for authentication on your mail server                                                                  | `secretpassword`                        |
-| EMAIL_USE_STARTTLS| "NO"            | use starttls, YES or NO                                                                                        | `YES` or `NO`                           |
-| EMAIL_FROM        | "Docktartar"    | The name that is displayed in the from field                                                                     | `Docktartar`                            |
-| EMAIL_FROM_ADRESS | ""              | The e-mail adress that is displayed in the from field                                                            | `admin@company.com`                     |
-| EMAIL_SUBJECT     | "Docktartar"    | The subject of the message                                                                                       | `Backupjob`                             |
-| EMAIL_TO          | ""              | The E-Mail adress where the emails should be send                                                                | `yourmail@company.com`                  |
+| Variable          | Default Value   | Description                                                                                                              | Examples                                |
+| ----------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------ | --------------------------------------- |
+| CRON              | "0 0 * * *"     | (=Midnight) When the script should start as cron format. Check [cron-generator](http://www.crontab-generator.org)        | `"0 30 * * *"  `, `"0 0 */3 * *"`       |
+| TIMEZONE          | "Europe/Vienna" | Sets the timezone of the container.                                                                                      | `'Asia/Tokyo'`,`'America/Los_Angeles'`  |
+| TAR_OWNER_USERID  | 0               | Sets the Owner of the archive. 0 = root                                                                                  | enter `id` for all users on your system |
+| TAR_OWNER_GROUPID | 0               | Sets the Group-Owner of the archive.   0 = root                                                                          | enter `id` for all users on your system |
+| TAG               | "docker"        | Sets filename like tag.[timestamp].tar.gz                                                                                | `docker-backup`                         |
+| STOP_CONTAINERS   | "all"           | The containers to stop. Either Name, Id or all. nginx mysql all will stop nginx then mysql and then all others.          | `mysql all`, `nginx mysql`, `all`       |
+| START_CONTAINERS  | "all"           | The containers to start. Either Name, Id or all. nginx mysql all will start nginx then mysql and then all others.        | `mysql all`, `nginx mysql`, `all`       |
+| INCREMENTAL       | "true"          | Generates incremental backups                                                                                            | `true` or `false`                       |
+| SMB               | "false"         | Enables Samba integration                                                                                                | `true` or `false`                       |
+| SMB_USER          | ""              | Username of the samba user                                                                                               | `username`                              |
+| SMB_PASSWORD      | ""              | Password of the samba user                                                                                               | `pass`                                  |
+| SMB_SMB_PATH      | ""              | IP+Path of the Samba Network Share                                                                                       | `192.162.4.10/shares/backups`           |
+| EMAIL_HOST_PORT   | ""              | Host and port of your e-mail server/smarthost The format is host.tld:port                                                | `mail.company.com:587`                  |
+| EMAIL_USER        | ""              | Username for authentication on your mail server                                                                          | `web58p4`                               |
+| EMAIL_PASS        | ""              | Password for authentication on your mail server                                                                          | `secretpassword`                        |
+| EMAIL_USE_STARTTLS| "NO"            | use starttls, YES or NO                                                                                                  | `YES` or `NO`                           |
+| EMAIL_FROM        | "Docktartar"    | The name that is displayed in the from field                                                                             | `Docktartar`                            |
+| EMAIL_FROM_ADRESS | ""              | The e-mail adress that is displayed in the from field                                                                    | `admin@company.com`                     |
+| EMAIL_SUBJECT     | "Docktartar"    | The subject of the message                                                                                               | `Backupjob`                             |
+| EMAIL_TO          | ""              | The E-Mail adress where the emails should be send                                                                        | `yourmail@company.com`                  |
+| TEMP_DIR          | "NO"            | If set to YES, the archive is built in /backupTmp and then moved to /backupTarget, after the all containers restarted    | `YES` or `NO`                           |
 
 ## Samba Share and Permissions
 
