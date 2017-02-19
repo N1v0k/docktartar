@@ -104,7 +104,7 @@ if [  "$SMB" == "true" ]; then
     umount /backupTarget
 fi
 
-size=$(ls -sh "/backupTarget/${TAG}.${tstamp}.tar.gz")
+size=$(du -h "/backupTarget/${TAG}.${tstamp}.tar.gz" | cut -f1)
 echo "Archive size: $size" | tee -a log.mail
 
 duration=$SECONDS
