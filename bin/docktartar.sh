@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 SECONDS=0
 
-if [ -n "$EMAIL_TO" ];then
-    echo "From: ${EMAIL_FROM} <${EMAIL_FROM_ADRESS}>" > log.mail
-    echo "Subject: ${EMAIL_SUBJECT}" >> log.mail
-fi
-echo "Starting Backup - $(date) ."
+
+echo "From: ${EMAIL_FROM} <${EMAIL_FROM_ADRESS}>" | tee log.mail
+echo "Subject: ${EMAIL_SUBJECT}" | tee -a log.mail
+
+echo "Starting Backup - $(date) ." | tee -a log.mail
 
 meid=$(cat /proc/1/cgroup | grep 'docker/' | tail -1 | sed 's/^.*\///' | cut -c 1-12)
 
@@ -39,7 +39,7 @@ fi
 
 echo "Looking for sockets to exclude them from the archive..."
 cd /backupSource && find . -type s > /root/socketlist
-cd /
+cd /root
 
 echo "Creating TAR-Archive from /backupSource"
 tstamp=$(date "+%H.%M.%S-%d.%m.%y")
@@ -87,14 +87,12 @@ else
 fi
 
 if [ "$TEMP_DIR" == "YES" ]; then
-    echo "The TAR-Process took $(($SECONDS_TAR / 60)) minutes and $(($SECONDS_TAR % 60)) seconds."
-    echo "The TAR-Process took $(($SECONDS_TAR / 60)) minutes and $(($SECONDS_TAR % 60)) seconds." >> log.mail
+    echo "The TAR-Process took $(($SECONDS_TAR / 60)) minutes and $(($SECONDS_TAR % 60)) seconds." | tee -a log.mail
     echo "Moving to backupTarget";
     SECONDS_BAK=$SECONDS
     SECONDS=0
     mv "/backupTmp/${TAG}.${tstamp}.tar.gz" "/backupTarget/${TAG}.${tstamp}.tar.gz"
-    echo "The MOVE-Process took $(($SECONDS / 60)) minutes and $(($SECONDS % 60)) seconds."
-    echo "The MOVE-Process took $(($SECONDS / 60)) minutes and $(($SECONDS % 60)) seconds." >> log.mail
+    echo "The MOVE-Process took $(($SECONDS / 60)) minutes and $(($SECONDS % 60)) seconds." | tee -a log.mail
     SECONDS=$(($SECONDS+$SECONDS_BAK))
 fi
 
@@ -107,12 +105,10 @@ if [  "$SMB" == "true" ]; then
 fi
 
 size=$(du -h "/backupTarget/${TAG}.${tstamp}.tar.gz" | cut -f1)
-echo "Archive size: $size"
-echo "Archive size: $size" >> log.mail
+echo "Archive size: $size" | tee -a log.mail
 
 duration=$SECONDS
-echo "Backup $TAG took $(($duration / 60)) minutes and $(($duration % 60)) seconds."
-echo "Backup $TAG took $(($duration / 60)) minutes and $(($duration % 60)) seconds." >> log.mail
+echo "Backup $TAG took $(($duration / 60)) minutes and $(($duration % 60)) seconds." | tee -a log.mail
 
 if [ -n "$EMAIL_TO" ];then
     echo "Sending email to ${EMAIL_TO}"
