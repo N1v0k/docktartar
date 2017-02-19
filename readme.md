@@ -73,6 +73,14 @@ docker run -d --name docktartar \
 | SMB_USER          | ""              | Username of the samba user                                                                                       | `username`                              |
 | SMB_PASSWORD      | ""              | Password of the samba user                                                                                       | `pass`                                  |
 | SMB_SMB_PATH      | ""              | IP+Path of the Samba Network Share                                                                               | `192.162.4.10/shares/backups`           |
+| EMAIL_HOST_PORT   | ""              | Host and port of your e-mail server/smarthost The format is host.tld:port                                        | `mail.company.com:587`                  |
+| EMAIL_USER        | ""              | Username for authentication on your mail server                                                                  | `web58p4`                               |
+| EMAIL_PASS        | ""              | Password for authentication on your mail server                                                                  | `secretpassword`                        |
+| EMAIL_USE_STARTTLS| "NO"            | use starttls, YES or NO                                                                                        | `YES` or `NO`                           |
+| EMAIL_FROM        | "Docktartar"    | The name that is displayed in the from field                                                                     | `Docktartar`                            |
+| EMAIL_FROM_ADRESS | ""              | The e-mail adress that is displayed in the from field                                                            | `admin@company.com`                     |
+| EMAIL_SUBJECT     | "Docktartar"    | The subject of the message                                                                                       | `Backupjob`                             |
+| EMAIL_TO          | ""              | The E-Mail adress where the emails should be send                                                                | `yourmail@company.com`                  |
 
 ## Samba Share and Permissions
 

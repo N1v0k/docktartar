@@ -13,16 +13,14 @@ ENV CRON="0 0 * * *" \
     SMB_USER="" \
     SMB_PASSWORD="" \
     SMB_PATH="" \
-    EMAIL_ADRESS="" \
     EMAIL_HOST_PORT="" \
     EMAIL_USER="" \
     EMAIL_PASS="" \
-    EMAIL_USE_STARTTLS="" \
-    EMAIL_FROM="" \
+    EMAIL_USE_STARTTLS="NO" \
+    EMAIL_FROM="Docktartar" \
     EMAIL_FROM_ADRESS="" \
     EMAIL_SUBJECT="Docktartar" \
     EMAIL_TO="" \
-    EMAIL_HOSTNAME=""
 
 ADD bin/docktartar.sh /root/docktartar.sh
 ADD bin/run.sh /root/run.sh

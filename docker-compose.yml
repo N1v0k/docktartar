@@ -17,7 +17,6 @@ services:
       SMB_USER: ""
       SMB_PASSWORD: ""
       SMB_PATH: ""
-      EMAIL_ADRESS: ""
       EMAIL_HOST_PORT: ""
       EMAIL_USER: ""
       EMAIL_PASS: ""

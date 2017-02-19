@@ -12,14 +12,12 @@ crontab /root/docktartar.cron
 
 echo "Setting up mail..."
 
-if [ -n "$EMAIL_ADRESS" ];then
-    echo "root=${EMAIL_ADRESS}" > /etc/ssmtp/ssmtp.conf
+if [ -n "$EMAIL_TO" ];then
+    echo "root=${EMAIL_TO}" > /etc/ssmtp/ssmtp.conf
     echo "mailhub=${EMAIL_HOST_PORT}" >> /etc/ssmtp/ssmtp.conf
     echo "AuthUser=${EMAIL_USER}" >> /etc/ssmtp/ssmtp.conf
     echo "AuthPass=${EMAIL_PASS}" >> /etc/ssmtp/ssmtp.conf
     echo "UseSTARTTLS=${EMAIL_USE_STARTTLS}" >> /etc/ssmtp/ssmtp.conf
-    echo "FromLineOverride=${EMAIL_FROM}" >> /etc/ssmtp/ssmtp.conf
-    echo "hostname=${EMAIL_HOSTNAME}" >> /etc/ssmtp/ssmtp.conf
 fi
 
 
