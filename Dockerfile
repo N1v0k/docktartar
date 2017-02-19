@@ -19,6 +19,8 @@ ENV CRON="0 0 * * *" \
     EMAIL_PASS="" \
     EMAIL_USE_STARTTLS="" \
     EMAIL_FROM="" \
+    EMAIL_FROM_ADRESS="" \
+    EMAIL_SUBJECT="Docktartar" \
     EMAIL_TO="" \
     EMAIL_HOSTNAME=""
 

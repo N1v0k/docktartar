@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-echo "Starting Backup - $(date)" | tee log.mail
+echo "From: ${EMAIL_FROM} <${EMAIL_FROM_ADRESS}>" > log.mail
+echo "Subject: ${EMAIL_SUBJECT}" >> log.mail
+echo "Starting Backup - $(date)" | tee -a log.mail
 SECONDS=0
 
 meid=$(cat /proc/1/cgroup | grep 'docker/' | tail -1 | sed 's/^.*\///' | cut -c 1-12)
@@ -49,7 +51,6 @@ if [ "$INCREMENTAL" == "true" ]; then
         rm "/backupTarget/snap.incr"
         mv "/backupTarget/snap.incr.bak" "/backupTarget/snap.incr"
     fi
-
 else
     tar -c -p --use-compress-program=pigz -f "/backupTarget/${TAG}.${tstamp}.tar.gz" /backupSource/*
     tar_result=$?
