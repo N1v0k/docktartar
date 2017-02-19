@@ -66,7 +66,6 @@ if [ "$INCREMENTAL" == "true" ]; then
     fi
 else
     tar -c -p --use-compress-program=pigz --exclude-from=/root/socketlist -f "${target}/${TAG}.${tstamp}.tar.gz" -C /backupSource .
-    tar_result=$?
 fi
 
 SECONDS_TAR=$SECONDS
@@ -110,10 +109,6 @@ echo "Archive size: $size" | tee -a log.mail
 
 duration=$SECONDS
 echo "Backup $TAG took $(($duration / 60)) minutes and $(($duration % 60)) seconds." | tee -a log.mail
-
-if [[ $tar_result != 0 ]]; then
-    echo "Attention, the tar-process returned a non-zero exit code: $tar_result" | tee -a log.mail
-fi
 
 if [ -n "$EMAIL_TO" ];then
     echo "Sending email to ${EMAIL_TO}"
