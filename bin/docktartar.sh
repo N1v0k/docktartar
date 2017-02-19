@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
-
-echo "From: ${EMAIL_FROM} <${EMAIL_FROM_ADRESS}>" > log.mail
-echo "Subject: ${EMAIL_SUBJECT}" >> log.mail
-echo "Starting Backup - $(date)" | tee -a log.mail
 SECONDS=0
+echo "From: ${EMAIL_FROM} <${EMAIL_FROM_ADRESS}>" | tee log.mail
+echo "Subject: ${EMAIL_SUBJECT}" | tee -a log.mail
+echo "[${SECONDS}] Starting Backup - $(date)" | tee -a log.mail
+
 
 meid=$(cat /proc/1/cgroup | grep 'docker/' | tail -1 | sed 's/^.*\///' | cut -c 1-12)
 
 if [  "$SMB" == "true" ]; then
-    echo "Mounting the SMB share";
+    echo "[${SECONDS}] Mounting the SMB share";
     mount -t cifs -o username=${SMB_USER},passwd=${SMB_PASSWORD} //${SMB_PATH} /backupTarget
 fi
 
@@ -18,7 +18,7 @@ first_to_stop="${STOP_CONTAINERS%all}"
 last_to_stop="${STOP_CONTAINERS##* }"
 
 if [ "$last_to_stop" == "all" ]; then
-    echo "Stopping $(docker stop $first_to_stop)"
+    echo "[${SECONDS}] Stopping $(docker stop $first_to_stop)"
     while [ $(docker ps -q | wc -l) -gt 1 ]
     do
         containers=$(docker ps -q)
@@ -26,27 +26,27 @@ if [ "$last_to_stop" == "all" ]; then
         do
             if [[ "$cont" != "$meid" ]]
             then
-                echo "Stopping $(docker stop $cont)"
+                echo "[${SECONDS}] Stopping $(docker stop $cont)"
             fi
             containers=$(docker ps -q)
         done
     done
 else
-    echo "Stopping $(docker stop $STOP_CONTAINERS)"
+    echo "[${SECONDS}] Stopping $(docker stop $STOP_CONTAINERS)"
 fi
 
-echo "Creating TAR-Archive of /backupSource to /backupTarget"
+echo "[${SECONDS}] Creating TAR-Archive from /backupSource"
 tstamp=$(date "+%H.%M.%S-%d.%m.%y")
 
 if [ "$TEMP_DIR" == "YES" ]; then
-    echo "Using temp directory"
+    echo "[${SECONDS}] Using temp directory"
     target="/backupTmp"
 else
     target="/backupTarget"
 fi
 
 if [ "$INCREMENTAL" == "true" ]; then
-    echo "Doing an incremental backup"
+    echo "[${SECONDS}] Doing an incremental backup"
 
     if [ -f /backupTarget/snap.incr ]; then
         cp "/backupTarget/snap.incr" "/backupTarget/snap.incr.bak"
@@ -63,33 +63,39 @@ else
     tar_result=$?
 fi
 
+SECONDS_TAR=$SECONDS
 
 first_to_start="${START_CONTAINERS%all}"
 last_to_start="${START_CONTAINERS##* }"
 
 if [ "$last_to_start" == "all" ]; then
-    echo "Restarting $(docker start $first_to_start)"
+    echo "[${SECONDS}] Restarting $(docker start $first_to_start)"
     while [ $nof_running_containers -ne $(docker ps -q | wc -l) ]
     do
         for cont in ${running_containers[@]}
         do
-            echo "Restarting $(docker start $cont)"
+            echo "[${SECONDS}] Restarting $(docker start $cont)"
         done
     done
 else
-    echo "Restarting $(docker start $START_CONTAINERS)"
+    echo "[${SECONDS}] Restarting $(docker start $START_CONTAINERS)"
 fi
 
 if [ "$TEMP_DIR" == "YES" ]; then
-    echo "Moving to backupTarget";
+    echo "The TAR-Process took $(($SECONDS_TAR / 60)) minutes and $(($SECONDS_TAR % 60)) seconds." | tee -a log.mail
+    echo "[${SECONDS}] Moving to backupTarget";
+    SECONDS_BAK=$SECONDS
+    SECONDS=0
     mv "/backupTmp/${TAG}.${tstamp}.tar.gz" "/backupTarget/${TAG}.${tstamp}.tar.gz"
+    echo "The MOVE-Process took $(($SECONDS / 60)) minutes and $(($SECONDS % 60)) seconds." | tee -a log.mail
+    SECONDS=$SECONDS+SECONDS_BAK
 fi
 
-echo "Chown the archive"
+echo "[${SECONDS}] Chown the archive"
 chown ${TAR_OWNER_USERID}:${TAR_OWNER_GROUPID} "/backupTarget/${TAG}.${tstamp}.tar.gz"
 
 if [  "$SMB" == "true" ]; then
-    echo "Unmounting the SMB share"
+    echo "[${SECONDS}] Unmounting the SMB share"
     umount /backupTarget
 fi
 
