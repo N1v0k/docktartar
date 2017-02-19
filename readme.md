@@ -1,3 +1,9 @@
+[![Docker Stars](https://img.shields.io/docker/stars/gmentsik/docktartar.svg?style=flat-square)](https://hub.docker.com/r/gmentsik/docktartar)
+[![Docker Pulls](https://img.shields.io/docker/pulls/gmentsik/docktartar.svg?style=flat-square)](https://hub.docker.com/r/gmentsik/docktartar)
+[![Docker Automated buil](https://img.shields.io/docker/automated/gmentsik/docktartar.svg?style=flat-square)](https://hub.docker.com/r/gmentsik/docktartar)
+[![Docker Repository on Quay](https://quay.io/repository/gmentsik/docktartar/status "Docker Repository on Quay")](https://quay.io/repository/gmentsik/docktartar)
+[![](https://images.microbadger.com/badges/image/gmentsik/docktartar.svg)](https://microbadger.com/images/gmentsik/docktartar "Get your own image badge on microbadger.com")
+
 # DockTartar
 
 - [Introduction](#introduction)

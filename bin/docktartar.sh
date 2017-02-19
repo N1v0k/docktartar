@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 SECONDS=0
 
-echo "From: ${EMAIL_FROM} <${EMAIL_FROM_ADRESS}>" > log.mail
-echo "Subject: ${EMAIL_SUBJECT}" >> log.mail
-echo "Starting Backup - $(date)" | tee -a log.mail
-echo "" | tee -a log.mail
+if [ -n "$EMAIL_TO" ];then
+    echo "From: ${EMAIL_FROM} <${EMAIL_FROM_ADRESS}>" | tee log.mail
+    echo "Subject: ${EMAIL_SUBJECT}" | tee -a log.mail
+fi
+echo "Starting Backup - $(date) ." | tee -a log.mail
 
 meid=$(cat /proc/1/cgroup | grep 'docker/' | tail -1 | sed 's/^.*\///' | cut -c 1-12)
 
