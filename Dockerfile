@@ -24,6 +24,7 @@ ENV CRON="0 0 * * *" \
 
 ADD bin/docktartar.sh /root/docktartar.sh
 ADD bin/run.sh /root/run.sh
+ADD bin/test-email.sh /root/test-email.sh
 
 #RUN apt-get update && apt-get install -y bash docker tar grep tzdata cron \
 RUN apk add --update bash docker tar pigz grep tzdata cifs-utils ssmtp \
@@ -31,6 +32,7 @@ RUN apk add --update bash docker tar pigz grep tzdata cifs-utils ssmtp \
     && mkdir /backupTarget \
     && chmod 755 /root/run.sh \
     && chmod 755 /root/docktartar.sh \
+    && chmod 755 /root/dotest-email.sh \
     && touch /var/log/cron.log
 
 ENTRYPOINT ["/root/run.sh"]
