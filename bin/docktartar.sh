@@ -35,6 +35,9 @@ else
     echo "[${SECONDS}] Stopping $(docker stop $STOP_CONTAINERS)"
 fi
 
+echo "Looking for sockets to exclude them from the archive..."
+find . -type s > /root/socketlist
+
 echo "[${SECONDS}] Creating TAR-Archive from /backupSource"
 tstamp=$(date "+%H.%M.%S-%d.%m.%y")
 
@@ -52,14 +55,14 @@ if [ "$INCREMENTAL" == "true" ]; then
         cp "/backupTarget/snap.incr" "/backupTarget/snap.incr.bak"
     fi
 
-    tar --listed-incremental="/backupTarget/snap.incr" -cpzf "${target}/${TAG}.${tstamp}.tar.gz" -C /backupSource .
+    tar --listed-incremental="/backupTarget/snap.incr" --exclude-from=/root/socketlist -c -p --use-compress-program=pigz --exclude-from=/root/socketlist -f "${target}/${TAG}.${tstamp}.tar.gz" -C /backupSource .
 
     if [ -f /backupTarget/snap.incr.bak ]; then
         rm "/backupTarget/snap.incr"
         mv "/backupTarget/snap.incr.bak" "/backupTarget/snap.incr"
     fi
 else
-    tar -c -p --use-compress-program=pigz -f "${target}/${TAG}.${tstamp}.tar.gz" -C /backupSource .
+    tar -c -p --use-compress-program=pigz --exclude-from=/root/socketlist -f "${target}/${TAG}.${tstamp}.tar.gz" -C /backupSource .
     tar_result=$?
 fi
 
