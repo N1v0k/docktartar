@@ -18,6 +18,10 @@ if [ -n "$EMAIL_TO" ];then
     echo "AuthUser=${EMAIL_USER}" >> /etc/ssmtp/ssmtp.conf
     echo "AuthPass=${EMAIL_PASS}" >> /etc/ssmtp/ssmtp.conf
     echo "UseSTARTTLS=${EMAIL_USE_STARTTLS}" >> /etc/ssmtp/ssmtp.conf
+
+    if [ -n "$EMAIL_FROM" ];then
+        echo "FromLineOverride=YES" >> /etc/ssmtp/ssmtp.conf
+    fi
 fi
 
 
