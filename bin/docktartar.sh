@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-echo "Starting - $(date)"
-
+echo "Starting Backup - $(date)" | tee log.mail
+SECONDS=0
 
 meid=$(cat /proc/1/cgroup | grep 'docker/' | tail -1 | sed 's/^.*\///' | cut -c 1-12)
 
@@ -33,8 +33,6 @@ else
     echo "Stopping $(docker stop $STOP_CONTAINERS)"
 fi
 
-
-
 echo "Creating TAR-Archive of /backupSource to /backupTarget"
 tstamp=$(date "+%H.%M.%S-%d.%m.%y")
 
@@ -54,6 +52,7 @@ if [ "$INCREMENTAL" == "true" ]; then
 
 else
     tar -c -p --use-compress-program=pigz -f "/backupTarget/${TAG}.${tstamp}.tar.gz" /backupSource
+    tar_result=$?
 fi
 
 first_to_start="${START_CONTAINERS%all}"
@@ -78,6 +77,21 @@ chown ${TAR_OWNER_USERID}:${TAR_OWNER_GROUPID} "/backupTarget/${TAG}.${tstamp}.t
 if [  "$SMB" == "true" ]; then
     echo "Unmounting the SMB share"
     umount /backupTarget
+fi
+
+size=$(ls -sh "/backupTarget/${TAG}.${tstamp}.tar.gz")
+echo "Archive size: $size" | tee -a log.mail
+
+duration=$SECONDS
+echo "Backup $TAG took $(($duration / 60)) minutes and $(($duration % 60)) seconds." | tee -a log.mail
+
+if [[ $tar_result != 0 ]]; then
+    echo "Attention, the tar-process returned a non-zero exit code: $tar_result" | tee -a log.mail
+fi
+
+if [ -n "$EMAIL_TO" ];then
+    echo "Sending email to ${EMAIL_TO}"
+    ssmtp ${EMAIL_TO} < log.mail
 fi
 
 echo "Finished."

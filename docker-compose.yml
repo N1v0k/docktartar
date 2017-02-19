@@ -17,6 +17,15 @@ services:
       SMB_USER: ""
       SMB_PASSWORD: ""
       SMB_PATH: ""
+      EMAIL_ADRESS: ""
+      EMAIL_HOST_PORT: ""
+      EMAIL_USER: ""
+      EMAIL_PASS: ""
+      EMAIL_USE_STARTTLS: ""
+      EMAIL_FROM: ""
+      EMAIL_TO: ""
+      EMAIL_HOSTNAME: ""
+
     volumes:
     - /srv/docker:/backupSource
     - /var/backup/docker:/backupTarget
