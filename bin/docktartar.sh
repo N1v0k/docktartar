@@ -36,7 +36,7 @@ else
 fi
 
 echo "Looking for sockets to exclude them from the archive..."
-find . -type s > /root/socketlist
+find /backupSource -type s > /root/socketlist
 
 echo "[${SECONDS}] Creating TAR-Archive from /backupSource"
 tstamp=$(date "+%H.%M.%S-%d.%m.%y")
