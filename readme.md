@@ -11,6 +11,7 @@
 - [Change history](CHANGELOG)
 - [Contributing](#contributing)
 - [Issues](#issues)
+
 # Introduction
 
 Docktartar will recursivly tar a directory to another location. It has been designed to stop running docker containers before doing the backup and restart them after the archival process.
@@ -29,6 +30,7 @@ Some Features:
 You can provide a temp-directory for faster archival, afterwards the script will move the archive wherever you want.
 This is useful in cases where you want to store your backup on a remote server (you should really do this!).
 The workflow in this case is:
+
 1. Stop Containers
 2. Build the archive in the /backupTmp directory
 3. Start containers
