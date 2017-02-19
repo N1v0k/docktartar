@@ -13,14 +13,20 @@
 - [Issues](#issues)
 # Introduction
 
-`Dockerfile` to create a [Docker](https://www.docker.com/) container image for periodically and recursively taring a directory.
-It has been designed to tar docker-volumes on the host.
-Docktartar will first stop all your running containers, tar them to a location and restart all containers.
+Docktartar will recursivly tar a directory to another location. It has been designed to stop running docker containers before doing the backup and restart them after the archival process.
 
-You can specify what containers should be stopped and started.
-This script uses pigz in order to enable multi-core compression of your archive, making it real fast. (2 minutes vs 6 minutes for about 10 GB with an Xeon E3-1225 v3, from SSD to HDD )
+Some Features:
 
-Yuu can provide a temp-directory for faster archival, afterwards the script will move the archive wherever you want.
+* Multi-Core Compression with pigz
+* CRON daemon to schedule the backup job
+* SMB Client to backup to a network share
+* Temp-Directory to build the archive locally (eg SSD), restart the containers and move the archive afterwards
+* Mail notifications with ssmtp
+* Full configuration with environment variables
+* Chose which containers to stop and restart
+
+
+You can provide a temp-directory for faster archival, afterwards the script will move the archive wherever you want.
 This is useful in cases where you want to store your backup on a remote server (you should really do this!).
 The workflow in this case is:
 1. Stop Containers
