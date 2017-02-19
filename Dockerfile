@@ -20,7 +20,7 @@ ENV CRON="0 0 * * *" \
     EMAIL_FROM="Docktartar" \
     EMAIL_FROM_ADRESS="" \
     EMAIL_SUBJECT="Docktartar" \
-    EMAIL_TO="" \
+    EMAIL_TO=""
 
 ADD bin/docktartar.sh /root/docktartar.sh
 ADD bin/run.sh /root/run.sh
