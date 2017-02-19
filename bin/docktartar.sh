@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 SECONDS=0
 
-echo "From: ${EMAIL_FROM} <${EMAIL_FROM_ADRESS}>" | tee log.mail
-echo "Subject: ${EMAIL_SUBJECT}" | tee -a log.mail
+echo "From: ${EMAIL_FROM} <${EMAIL_FROM_ADRESS}>" > log.mail
+echo "Subject: ${EMAIL_SUBJECT}" >> log.mail
 echo "Starting Backup - $(date)" | tee -a log.mail
 echo "" | tee -a log.mail
 
