@@ -37,7 +37,8 @@ else
 fi
 
 echo "Looking for sockets to exclude them from the archive..."
-find /backupSource -type s > /root/socketlist
+cd /backupSource && find . -type s > /root/socketlist
+cd /
 
 echo "Creating TAR-Archive from /backupSource"
 tstamp=$(date "+%H.%M.%S-%d.%m.%y")
@@ -95,7 +96,7 @@ if [ "$TEMP_DIR" == "YES" ]; then
     SECONDS=$(($SECONDS+$SECONDS_BAK))
 fi
 
-echo "[${SECONDS}] Chown the archive"
+echo "Chown the archive"
 chown ${TAR_OWNER_USERID}:${TAR_OWNER_GROUPID} "/backupTarget/${TAG}.${tstamp}.tar.gz"
 
 if [  "$SMB" == "true" ]; then
