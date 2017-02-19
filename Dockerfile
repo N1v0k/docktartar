@@ -32,7 +32,7 @@ RUN apk add --update bash docker tar pigz grep tzdata cifs-utils ssmtp \
     && mkdir /backupTarget \
     && chmod 755 /root/run.sh \
     && chmod 755 /root/docktartar.sh \
-    && chmod 755 /root/dotest-email.sh \
+    && chmod 755 /root/test-email.sh \
     && touch /var/log/cron.log
 
 ENTRYPOINT ["/root/run.sh"]
