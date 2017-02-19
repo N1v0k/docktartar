@@ -20,7 +20,7 @@
 
 # Introduction
 
-Docktartar will recursivly tar a directory to another location. It has been designed to stop running docker containers before doing the backup and restart them after the archival process.
+Docktartar will recursively tar a directory to another location. It has been designed to stop running docker containers before doing the backup and restart them after the archival process.
 
 Some Features:
 
@@ -60,8 +60,9 @@ docker build -t gmentsik/docktartar github.com/gmentsik/docktartar
 ```
 
 ## Quickstart
+You can use the sample [docker-compose.yml](docker-compose.yml) file to start the container using [Docker Compose](https://docs.docker.com/compose/)*
 
-Start Tartar using:
+Or start Docktartar using:
 
 ```bash
 docker run -d --name docktartar \
@@ -73,18 +74,17 @@ docker run -d --name docktartar \
       gmentsik/docktartar
 ```
 
-*Alternatively, you can use the sample [docker-compose.yml](docker-compose.yml) file to start the container using [Docker Compose](https://docs.docker.com/compose/)*
 
 ## Environment Variables
 
 
 | Variable          | Default Value   | Description                                                                                                              | Examples                                |
 | ----------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------ | --------------------------------------- |
-| CRON              | "0 0 * * *"     | (=Midnight) When the script should start as cron format. Check [cron-generator](http://www.crontab-generator.org)        | `"0 30 * * *"  `, `"0 0 */3 * *"`       |
+| CRON              | "0 0 * * *"     | (=Midnight) When the script should start in cron format. Check [cron-generator](http://www.crontab-generator.org)        | `"0 30 * * *"  `, `"0 0 */3 * *"`       |
 | TIMEZONE          | "Europe/Vienna" | Sets the timezone of the container.                                                                                      | `'Asia/Tokyo'`,`'America/Los_Angeles'`  |
 | TAR_OWNER_USERID  | 0               | Sets the Owner of the archive. 0 = root                                                                                  | enter `id` for all users on your system |
-| TAR_OWNER_GROUPID | 0               | Sets the Group-Owner of the archive.   0 = root                                                                          | enter `id` for all users on your system |
-| TAG               | "docker"        | Sets filename like tag.[timestamp].tar.gz                                                                                | `docker-backup`                         |
+| TAR_OWNER_GROUPID | 0               | Sets the Group-Owner of the archive. 0 = root                                                                            | enter `id` for all users on your system |
+| TAG               | "docker"        | Sets filename tag.[timestamp].tar.gz                                                                                     | `docker-backup`                         |
 | STOP_CONTAINERS   | "all"           | The containers to stop. Either Name, Id or all. nginx mysql all will stop nginx then mysql and then all others.          | `mysql all`, `nginx mysql`, `all`       |
 | START_CONTAINERS  | "all"           | The containers to start. Either Name, Id or all. nginx mysql all will start nginx then mysql and then all others.        | `mysql all`, `nginx mysql`, `all`       |
 | INCREMENTAL       | "true"          | Generates incremental backups                                                                                            | `true` or `false`                       |
@@ -116,6 +116,13 @@ In order to run this with samba share as the backup target, you have to either r
 | /var/lib/docker       | Has to be mapped in ordner to be able to stop and start containers.                           |
     
 # Maintenance
+
+## Test Mail settings
+There is a test script in the root folder called `test-mail.sh` which can be used to test the email settings.
+  ```bash
+  docker exec -it docktartar /root/test-mail.sh
+  ```
+
 
 ## Upgrading
 
