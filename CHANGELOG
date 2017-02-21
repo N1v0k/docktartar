@@ -1,4 +1,8 @@
 ## Change history
+### [v1.0.6] [21.02.2017]
+#### added:
+* Check archive size before unmounting an SMB Share
+
 ### [v1.0.5] [19.02.2017]
 #### added:
 + E-Mail notifications via ssmtp

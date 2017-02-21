@@ -107,8 +107,6 @@ if [  "$SMB" == "true" ]; then
     umount /backupTarget
 fi
 
-
-
 duration=$SECONDS
 echo "Backup $TAG took $(($duration / 60)) minutes and $(($duration % 60)) seconds." | tee -a log.mail
 
