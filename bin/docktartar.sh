@@ -99,13 +99,15 @@ fi
 echo "Chown the archive"
 chown ${TAR_OWNER_USERID}:${TAR_OWNER_GROUPID} "/backupTarget/${TAG}.${tstamp}.tar.gz"
 
+size=$(du -h "/backupTarget/${TAG}.${tstamp}.tar.gz" | cut -f1)
+echo "Archive size: $size" | tee -a log.mail
+
 if [  "$SMB" == "true" ]; then
     echo "Unmounting the SMB share"
     umount /backupTarget
 fi
 
-size=$(du -h "/backupTarget/${TAG}.${tstamp}.tar.gz" | cut -f1)
-echo "Archive size: $size" | tee -a log.mail
+
 
 duration=$SECONDS
 echo "Backup $TAG took $(($duration / 60)) minutes and $(($duration % 60)) seconds." | tee -a log.mail
