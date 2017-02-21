@@ -33,7 +33,7 @@ if [ "$last_to_stop" == "all" ]; then
             containers=$(docker ps -q)
         done
     done
-else
+elif [ -n "$STOP_CONTAINERS" ]; then
     echo "Stopping $(docker stop $STOP_CONTAINERS)"
 fi
 
@@ -82,7 +82,7 @@ if [ "$last_to_start" == "all" ]; then
             echo "Restarting $(docker start $cont)"
         done
     done
-else
+elif [ -n "$START_CONTAINERS" ]; then
     echo "Restarting $(docker start $START_CONTAINERS)"
 fi
 
