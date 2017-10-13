@@ -15,8 +15,15 @@ echo "Setting up mail..."
 if [ -n "$EMAIL_TO" ];then
     echo "root=${EMAIL_TO}" > /etc/ssmtp/ssmtp.conf
     echo "mailhub=${EMAIL_HOST_PORT}" >> /etc/ssmtp/ssmtp.conf
-    echo "AuthUser=${EMAIL_USER}" >> /etc/ssmtp/ssmtp.conf
-    echo "AuthPass=${EMAIL_PASS}" >> /etc/ssmtp/ssmtp.conf
+
+    if [ -n "$EMAIL_USER" ]; then
+        echo "AuthUser=${EMAIL_USER}" >> /etc/ssmtp/ssmtp.conf
+    fi
+
+    if [ -n "$EMAIL_PASS" ]; then
+        echo "AuthPass=${EMAIL_PASS}" >> /etc/ssmtp/ssmtp.conf;
+    fi
+
     echo "UseSTARTTLS=${EMAIL_USE_STARTTLS}" >> /etc/ssmtp/ssmtp.conf
 
     if [ -n "$EMAIL_FROM" ];then

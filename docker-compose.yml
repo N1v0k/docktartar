@@ -33,4 +33,4 @@ services:
     - /var/run/docker.sock:/var/run/docker.sock
     - /var/lib/docker:/var/lib/docker
     stdin_open: true
-    network_mode: none
+
