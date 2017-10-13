@@ -11,7 +11,7 @@ meid=$(cat /proc/1/cgroup | grep 'docker/' | tail -1 | sed 's/^.*\///' | cut -c 
 
 if [  "$SMB" == "true" ]; then
     echo "Mounting the SMB share";
-    mount -t cifs -o username=${SMB_USER},passwd=${SMB_PASSWORD} //${SMB_PATH} /backupTarget
+    mount -t cifs -o user=${SMB_USER},password=${SMB_PASSWORD} //${SMB_PATH} /backupTarget
 fi
 
 running_containers=$(docker ps -q)
